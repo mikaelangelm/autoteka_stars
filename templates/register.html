@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Регистрация — Автотека{% endblock %}
+{% block content %}
+<h1>Регистрация</h1>
+<p class="muted">Создайте аккаунт по email. Стартовый баланс — 0 ⭐. Опубликуйте отчёт, чтобы заработать 100 ⭐.</p>
+<form method="post" action="/register">
+    <label>Email
+        <input type="email" name="email" required value="{{ email or '' }}">
+    </label>
+    <label>Пароль (мин. 6 символов)
+        <input type="password" name="password" required minlength="6">
+    </label>
+    <button type="submit">Зарегистрироваться</button>
+</form>
+<p>Уже есть аккаунт? <a href="/login">Войти</a></p>
+{% endblock %}

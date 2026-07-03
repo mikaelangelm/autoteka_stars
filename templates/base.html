@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Автотека ⭐{% endblock %}</title>
+    <style>
+        body { font-family: system-ui, sans-serif; max-width: 720px; margin: 2rem auto; padding: 0 1rem; line-height: 1.5; }
+        nav { margin-bottom: 1.5rem; display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+        nav a { color: #2563eb; }
+        .error { color: #b91c1c; background: #fef2f2; padding: 0.75rem; border-radius: 6px; }
+        .success { color: #166534; background: #f0fdf4; padding: 0.75rem; border-radius: 6px; }
+        .stars { font-weight: bold; color: #ca8a04; }
+        form { display: flex; flex-direction: column; gap: 0.75rem; margin: 1rem 0; }
+        label { display: flex; flex-direction: column; gap: 0.25rem; }
+        input[type="text"], input[type="email"], input[type="password"], input[type="file"] { padding: 0.5rem; }
+        button, .btn { display: inline-block; padding: 0.5rem 1rem; background: #2563eb; color: white; border: none; border-radius: 6px; cursor: pointer; text-decoration: none; }
+        button.secondary { background: #64748b; }
+        table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        th, td { text-align: left; padding: 0.5rem; border-bottom: 1px solid #e2e8f0; }
+        .muted { color: #64748b; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <strong>Автотека ⭐</strong>
+        {% if user %}
+            <span class="stars">Баланс: {{ user.stars }} ⭐</span>
+            <a href="/">Отчёты</a>
+            <form action="/logout" method="post" style="display:inline; margin:0;">
+                <button type="submit" class="secondary">Выйти ({{ user.email }})</button>
+            </form>
+        {% else %}
+            <a href="/login">Вход</a>
+            <a href="/register">Регистрация</a>
+        {% endif %}
+    </nav>
+
+    {% if error %}<p class="error">{{ error }}</p>{% endif %}
+    {% if message %}<p class="success">{{ message }}</p>{% endif %}
+
+    {% block content %}{% endblock %}
+</body>
+</html>

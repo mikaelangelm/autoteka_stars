@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}{{ report.title }} — Автотека{% endblock %}
+{% block content %}
+<h1>{{ report.title }}</h1>
+<p class="muted">Автор: {{ owner_email }} · {{ report.created_at.strftime('%d.%m.%Y %H:%M') }}</p>
+
+{% if is_own %}
+    <p>Ваш отчёт — скачивание бесплатно.</p>
+    <a class="btn" href="/reports/{{ report.id }}/download">Скачать PDF</a>
+{% elif already_downloaded %}
+    <p>Вы уже скачивали этот отчёт — повторное скачивание бесплатно.</p>
+    <a class="btn" href="/reports/{{ report.id }}/download">Скачать снова</a>
+{% else %}
+    <p>Скачивание стоит 10 ⭐. У вас: {{ user.stars }} ⭐</p>
+    <a class="btn" href="/reports/{{ report.id }}/download">Скачать (−10 ⭐)</a>
+{% endif %}
+
+<p><a href="/">← К списку отчётов</a></p>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}Вход — Автотека{% endblock %}
+{% block content %}
+<h1>Вход</h1>
+<form method="post" action="/login">
+    <label>Email
+        <input type="email" name="email" required value="{{ email or '' }}">
+    </label>
+    <label>Пароль
+        <input type="password" name="password" required>
+    </label>
+    <button type="submit">Войти</button>
+</form>
+<p>Нет аккаунта? <a href="/register">Зарегистрироваться</a></p>
+{% endblock %}

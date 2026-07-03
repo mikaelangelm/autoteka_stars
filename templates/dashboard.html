@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Отчёты — Автотека{% endblock %}
+{% block content %}
+<h1>Отчёты автотеки</h1>
+<p class="muted">Публикация: +100 ⭐ · Скачивание чужого отчёта: −10 ⭐ (один раз) · Свой отчёт — бесплатно</p>
+
+<section>
+    <h2>Опубликовать отчёт</h2>
+    <form method="post" action="/reports/publish" enctype="multipart/form-data">
+        <label>Название
+            <input type="text" name="title" required placeholder="Toyota Camry 2018">
+        </label>
+        <label>PDF-файл отчёта
+            <input type="file" name="file" accept=".pdf,application/pdf" required>
+        </label>
+        <button type="submit">Опубликовать (+100 ⭐)</button>
+    </form>
+</section>
+
+<section>
+    <h2>Все отчёты</h2>
+    {% if reports %}
+    <table>
+        <thead>
+            <tr>
+                <th>Название</th>
+                <th>Автор</th>
+                <th>Дата</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for report in reports %}
+            <tr>
+                <td><a href="/reports/{{ report.id }}">{{ report.title }}</a></td>
+                <td>{{ report.owner_email }}{% if report.is_own %} (вы){% endif %}</td>
+                <td class="muted">{{ report.created_at.strftime('%d.%m.%Y %H:%M') }}</td>
+                <td>
+                    {% if report.is_own %}
+                        <a class="btn" href="/reports/{{ report.id }}/download">Скачать (бесплатно)</a>
+                    {% elif report.already_downloaded %}
+                        <a class="btn" href="/reports/{{ report.id }}/download">Скачать снова</a>
+                    {% else %}
+                        <a class="btn" href="/reports/{{ report.id }}/download">Скачать (−10 ⭐)</a>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="muted">Пока нет опубликованных отчётов. Загрузите первый!</p>
+    {% endif %}
+</section>
+{% endblock %}
