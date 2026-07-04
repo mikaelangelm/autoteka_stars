@@ -1,3 +1,4 @@
+import os
 from pathlib import Path
 
 from fastapi import Depends, FastAPI, File, Form, Request, UploadFile
@@ -13,15 +14,24 @@ from app.database import get_db, init_db
 from app.models import User
 
 BASE_DIR = Path(__file__).resolve().parent.parent
+UPLOAD_DIR = BASE_DIR / "uploads"
 templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
+SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-change-in-production")
+
 app = FastAPI(title="Автотека Stars")
-app.add_middleware(SessionMiddleware, secret_key="dev-secret-change-in-production")
+app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
 
 @app.on_event("startup")
 def on_startup() -> None:
+    UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
     init_db()
+
+
+@app.get("/health")
+def health() -> dict[str, str]:
+    return {"status": "ok"}
 
 
 def _redirect_login() -> RedirectResponse:
