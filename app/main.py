@@ -19,7 +19,7 @@ templates = Jinja2Templates(directory=str(BASE_DIR / "templates"))
 
 SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-change-in-production")
 
-app = FastAPI(title="Автотека Stars")
+app = FastAPI(title="Автотека")
 app.add_middleware(SessionMiddleware, secret_key=SECRET_KEY)
 
 

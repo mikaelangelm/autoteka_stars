@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: autoteka-stars
+    name: autoteka
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
